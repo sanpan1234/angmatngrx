@@ -1,0 +1,18 @@
+<h3 *ngIf="isLoading">
+  <i>Loading heroes...</i>
+</h3>
+<h3 *ngIf="!isLoading">Select a hero:</h3>
+<nav>
+  <button mat-raised-button (click)="getHeroes()" color="accent">Refresh</button>
+  <button mat-raised-button (click)="select(hero)" *ngFor="let hero of heroes | async" color="primary">
+    {{hero.name}}
+  </button>
+</nav>
+
+<div *ngIf="selectedHero" fxLayout="column wrap" fxLayoutAlign="center start">
+  <hr>
+  <mat-toolbar color="primary">
+    <span>Hero Detail: {{selectedHero.name}}</span>
+  </mat-toolbar>
+  <app-hero-detail [hero]="selectedHero"></app-hero-detail>
+</div>
