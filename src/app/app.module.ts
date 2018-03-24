@@ -17,6 +17,9 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { HeroDetailComponent } from './hero/hero-detail.component';
 import { HeroListComponent } from './hero/hero-list.component';
 import { HeroService } from './hero/hero.service';
+import { HeaderComponent } from './navigation/header.component';
+import { SidenavListComponent } from './navigation/sidenav-list.component';
+import { StopTrainingComponent } from './training/stop-training.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,10 @@ import { HeroService } from './hero/hero.service';
     PastTrainingsComponent,
     WelcomeComponent,
     HeroDetailComponent,
-    HeroListComponent
+    HeroListComponent,
+    HeaderComponent,
+    SidenavListComponent,
+    StopTrainingComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +47,9 @@ import { HeroService } from './hero/hero.service';
     FlexLayoutModule
   ],
   providers: [HeroService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    StopTrainingComponent
+  ]
 })
 export class AppModule { }
