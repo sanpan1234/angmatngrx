@@ -6,13 +6,14 @@ import { LoginComponent } from "./auth/login.component";
 import { TrainingComponent } from "./training/training.component";
 import { HeroDetailComponent } from "./hero/hero-detail.component";
 import { HeroListComponent } from "./hero/hero-list.component";
+import { AuthGuard } from "./auth/auth.guard";
 
 const routes: Routes = [
-    { path: 'heroes', component: HeroListComponent},
+    { path: 'heroes', component: HeroListComponent },
     { path: 'signup', component: SignupComponent },
     { path: 'login', component: LoginComponent },
-    { path: 'training', component: TrainingComponent },
-    { path: '', component:WelcomeComponent },
+    { path: 'training', component: TrainingComponent, canActivate: [AuthGuard] },
+    { path: '', component: WelcomeComponent },
     { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 @NgModule({
@@ -21,6 +22,7 @@ const routes: Routes = [
     ],
     exports: [
         RouterModule
-    ]
+    ],
+    providers: [AuthGuard]
 })
 export class AppRoutingModule { }

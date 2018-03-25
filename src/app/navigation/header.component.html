@@ -9,14 +9,17 @@
   </div>
   <div fxFlex fxLayout="row wrap" fxLayoutAlign="end" fxHide.xs>
     <ul fxLayout class="navigation-items" fxLayoutGap="10px">
-      <li>
+      <li *ngIf="!isAuthenticated">
         <a routerLink="/signup">Signup</a>
       </li>
-      <li>
+      <li *ngIf="!isAuthenticated">
         <a routerLink="/login">Login</a>
       </li>
-      <li>
+      <li *ngIf="isAuthenticated">
         <a routerLink="/training">Training</a>
+      </li>
+      <li *ngIf="isAuthenticated">
+        <a style="cursor: pointer;" (click)="logout()">Logout</a>
       </li>
     </ul>
   </div>

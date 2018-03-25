@@ -20,6 +20,8 @@ import { HeroService } from './hero/hero.service';
 import { HeaderComponent } from './navigation/header.component';
 import { SidenavListComponent } from './navigation/sidenav-list.component';
 import { StopTrainingComponent } from './training/stop-training.component';
+import { AuthService } from './auth/auth.service';
+import { TrainingService } from './training/training.service';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,7 @@ import { StopTrainingComponent } from './training/stop-training.component';
     MaterialModule,
     FlexLayoutModule
   ],
-  providers: [HeroService],
+  providers: [HeroService, AuthService, TrainingService],
   bootstrap: [AppComponent],
   entryComponents: [
     StopTrainingComponent
