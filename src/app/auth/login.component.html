@@ -2,8 +2,7 @@
   <mat-toolbar color="primary" fxLayout="column wrap" fxLayoutGap="10px" fxLayoutAlign="center center">
     <span>Login</span>
   </mat-toolbar>
-  <form [formGroup]="loginForm" fxLayout="column wrap" 
-    fxLayoutAlign="center center" (ngSubmit)="login()">
+  <form [formGroup]="loginForm" fxLayout="column wrap" fxLayoutAlign="center center" (ngSubmit)="login()">
     <mat-form-field>
       <input matInput formControlName="email" type="email" placeholder="User ID">
       <mat-error>Invalid or missing Email (UserId)!</mat-error>
@@ -12,7 +11,7 @@
       <input matInput formControlName="password" type="password" placeholder="Password">
       <mat-error>Missing password!</mat-error>
     </mat-form-field>
-    <button mat-raised-button type="submit" color="primary"
-      [disabled]="loginForm.invalid">Login</button>
+    <button mat-raised-button type="submit" color="primary" [disabled]="loginForm.invalid" *ngIf="!isLoading">Login</button>
+    <mat-progress-spinner mode="indeterminate" *ngIf="isLoading"></mat-progress-spinner>
   </form>
 </section>

@@ -3,6 +3,7 @@ import { Subject } from 'rxjs/Subject';
 import { Exercise } from './exercise';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable, Subscription } from 'rxjs';
+import { UiService } from '../shared/ui.service';
 
 @Injectable()
 export class TrainingService {
@@ -15,10 +16,11 @@ export class TrainingService {
   onExerciseChange = new Subject<boolean>();
   private dbSubs: Subscription[] = [];
 
-  constructor(private db: AngularFirestore) { }
+  constructor(private db: AngularFirestore, private uiSvc: UiService) { }
 
   fetchAvailableExercises() {
-    this.dbSubs.push(this.db.collection('availableExercises').snapshotChanges()
+    this.uiSvc.loadingStateChange.next(true);
+    this.dbSubs.push(this.db.collection('available1Exercises').snapshotChanges()
       .map(docArray => {
         return docArray.map(doc => {
           const dataObj = doc.payload.doc.data();
@@ -33,6 +35,10 @@ export class TrainingService {
       .subscribe((exercises: Exercise[]) => {
         this.availableExercises = exercises;
         this.availableExercisesChange.next(this.availableExercises);
+        this.uiSvc.loadingStateChange.next(false);
+      }, (error) => {
+        this.uiSvc.loadingStateChange.next(false);
+        this.uiSvc.showSnackbar(error);
       }));
   }
 
@@ -82,6 +88,7 @@ export class TrainingService {
   }
 
   cancelSubscriptions() {
-    this.dbSubs.forEach(sub => sub.unsubscribe());
+    if (this.dbSubs)
+      this.dbSubs.forEach(sub => sub.unsubscribe());
   }
 }

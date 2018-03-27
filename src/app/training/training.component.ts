@@ -9,7 +9,7 @@ import { Exercise } from './exercise';
   styleUrls: ['./training.component.css']
 })
 export class TrainingComponent implements OnInit, OnDestroy {
-  
+
   exerciseChangeSubscription: Subscription;
   ongoingTraining = false;
 
@@ -20,8 +20,9 @@ export class TrainingComponent implements OnInit, OnDestroy {
       this.ongoingTraining = isStart;
     });
   }
- 
+
   ngOnDestroy(): void {
-    this.exerciseChangeSubscription.unsubscribe();
+    if (this.exerciseChangeSubscription)
+      this.exerciseChangeSubscription.unsubscribe();
   }
 }

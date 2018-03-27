@@ -1,5 +1,5 @@
 <section fxLayout fxLayoutAlign="center" class="new-training">
-    <mat-card fxFlex.gt-xs="400px" fxFlex.xs="100%">
+    <mat-card fxFlex.gt-xs="400px" fxFlex.xs="100%" *ngIf="!isLoading">
         <mat-card-title fxLayoutAlign="center">Time to start a workout!</mat-card-title>
         <mat-card-content fxLayoutAlign="center">
             <mat-form-field>
@@ -16,4 +16,5 @@
             </button>
         </mat-card-actions>
     </mat-card>
+    <mat-progress-spinner mode="indeterminate" *ngIf="isLoading"></mat-progress-spinner>
 </section>

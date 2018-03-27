@@ -5,6 +5,7 @@ import { User } from './user';
 import { AuthData } from './auth-data';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { TrainingService } from '../training/training.service';
+import { UiService } from '../shared/ui.service';
 
 @Injectable()
 export class AuthService {
@@ -12,7 +13,7 @@ export class AuthService {
   private isAuthenticated = false;
 
   constructor(private router: Router, private fireAuthSvc: AngularFireAuth,
-    private trainingSvc: TrainingService) { }
+    private trainingSvc: TrainingService, private uiSvc: UiService) { }
 
   initAuthListener() {
     this.fireAuthSvc.authState.subscribe(user => {
@@ -29,24 +30,30 @@ export class AuthService {
     });
   }
   registerUser(authData: AuthData) {
+    this.uiSvc.loadingStateChange.next(true);
     this.fireAuthSvc.auth.createUserWithEmailAndPassword(
       authData.email,
       authData.password
     ).then(result => {
+      this.uiSvc.loadingStateChange.next(false);
       console.log(result);
     })
       .catch(error => {
-        console.log(error);
+        this.uiSvc.loadingStateChange.next(false);
+        this.uiSvc.showSnackbar(error.message);
       });
   }
 
   login(authData: AuthData) {
+    this.uiSvc.loadingStateChange.next(true);
     this.fireAuthSvc.auth.signInWithEmailAndPassword(authData.email,
       authData.password).then(result => {
         console.log(result);
+        this.uiSvc.loadingStateChange.next(false);
       })
       .catch(error => {
-        console.log(error);
+        this.uiSvc.loadingStateChange.next(false);
+        this.uiSvc.showSnackbar(error.message);
       });
   }
 
