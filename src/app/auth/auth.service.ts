@@ -3,43 +3,58 @@ import { Subject } from 'rxjs/Subject';
 import { Injectable } from '@angular/core';
 import { User } from './user';
 import { AuthData } from './auth-data';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { TrainingService } from '../training/training.service';
 
 @Injectable()
 export class AuthService {
-  private user: User;
   authChange = new Subject<boolean>();
-  
-  constructor(private router: Router) { }
+  private isAuthenticated = false;
 
+  constructor(private router: Router, private fireAuthSvc: AngularFireAuth,
+    private trainingSvc: TrainingService) { }
+
+  initAuthListener() {
+    this.fireAuthSvc.authState.subscribe(user => {
+      if (user) {
+        this.isAuthenticated = true;
+        this.authChange.next(true);
+        this.router.navigate(['/training']);
+      } else {
+        this.isAuthenticated = false;
+        this.trainingSvc.cancelSubscriptions();
+        this.authChange.next(false);
+        this.router.navigate(['/login']);
+      }
+    });
+  }
   registerUser(authData: AuthData) {
-    this.user = {
-      email: authData.email,
-      userId: Math.round(Math.random() * 10000).toString()
-    };
-    this.authChange.next(true);
-    this.router.navigate(['/training']);
+    this.fireAuthSvc.auth.createUserWithEmailAndPassword(
+      authData.email,
+      authData.password
+    ).then(result => {
+      console.log(result);
+    })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   login(authData: AuthData) {
-    this.user = {
-      email: authData.email,
-      userId: Math.round(Math.random() * 10000).toString()
-    };
-    this.authChange.next(true);
-    this.router.navigate(['/training']); 
+    this.fireAuthSvc.auth.signInWithEmailAndPassword(authData.email,
+      authData.password).then(result => {
+        console.log(result);
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   logout() {
-    this.user = null;
-    this.authChange.next(false);
-    this.router.navigate(['/login']);
+    this.fireAuthSvc.auth.signOut();
   }
 
-  getUser() {
-    return { ...this.user };
-  }
-
-  isAuth(): boolean{
-    return this.user != null;
+  isAuth(): boolean {
+    return this.isAuthenticated;
   }
 }
