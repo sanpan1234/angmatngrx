@@ -14,7 +14,7 @@ export class CurrentTrainingComponent implements OnInit {
 
   progress = 0;
   timer: number;
-  private exercise: Exercise;
+  exercise: Exercise;
 
   constructor(private dialog: MatDialog, private trainingSvc: TrainingService) { }
 

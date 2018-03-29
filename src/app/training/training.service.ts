@@ -20,7 +20,7 @@ export class TrainingService {
 
   fetchAvailableExercises() {
     this.uiSvc.loadingStateChange.next(true);
-    this.dbSubs.push(this.db.collection('available1Exercises').snapshotChanges()
+    this.dbSubs.push(this.db.collection('availableExercises').snapshotChanges()
       .map(docArray => {
         return docArray.map(doc => {
           const dataObj = doc.payload.doc.data();

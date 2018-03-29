@@ -11,7 +11,8 @@
       <input matInput formControlName="password" type="password" placeholder="Password">
       <mat-error>Missing password!</mat-error>
     </mat-form-field>
-    <button mat-raised-button type="submit" color="primary" [disabled]="loginForm.invalid" *ngIf="!isLoading">Login</button>
-    <mat-progress-spinner mode="indeterminate" *ngIf="isLoading"></mat-progress-spinner>
+    <button mat-raised-button type="submit" color="primary" [disabled]="loginForm.invalid" 
+      *ngIf="!(isLoading$ | async)">Login</button>
+    <mat-progress-spinner mode="indeterminate" *ngIf="(isLoading$ | async)"></mat-progress-spinner>
   </form>
 </section>
