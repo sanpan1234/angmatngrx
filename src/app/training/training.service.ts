@@ -4,6 +4,9 @@ import { Exercise } from './exercise';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable, Subscription } from 'rxjs';
 import { UiService } from '../shared/ui.service';
+import * as fromRoot from '../_reducers/app.reducer';
+import * as UI from '../_actions/ui.actions';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class TrainingService {
@@ -16,10 +19,11 @@ export class TrainingService {
   onExerciseChange = new Subject<boolean>();
   private dbSubs: Subscription[] = [];
 
-  constructor(private db: AngularFirestore, private uiSvc: UiService) { }
+  constructor(private db: AngularFirestore, private uiSvc: UiService,
+    private store: Store<fromRoot.State>) { }
 
   fetchAvailableExercises() {
-    this.uiSvc.loadingStateChange.next(true);
+    this.store.dispatch(new UI.StartLoading());
     this.dbSubs.push(this.db.collection('availableExercises').snapshotChanges()
       .map(docArray => {
         return docArray.map(doc => {
@@ -35,9 +39,9 @@ export class TrainingService {
       .subscribe((exercises: Exercise[]) => {
         this.availableExercises = exercises;
         this.availableExercisesChange.next(this.availableExercises);
-        this.uiSvc.loadingStateChange.next(false);
+        this.store.dispatch(new UI.StopLoading());
       }, (error) => {
-        this.uiSvc.loadingStateChange.next(false);
+        this.store.dispatch(new UI.StopLoading());
         this.uiSvc.showSnackbar(error);
       }));
   }

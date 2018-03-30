@@ -1,4 +1,4 @@
-import * as fromUi from './shared/ui.reducer';
+import * as fromUi from './ui.reducer';
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 
 export interface State {

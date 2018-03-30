@@ -19,7 +19,7 @@ import { TrainingModule } from './training/training.module';
 import { MaterialModule } from './material.module';
 import { AuthService } from './auth/auth.service';
 import { TrainingService } from './training/training.service';
-import { reducers } from './app.reducer';
+import { reducers } from './_reducers/app.reducer';
 
 @NgModule({
   declarations: [

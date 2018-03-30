@@ -6,8 +6,8 @@ import { AuthData } from './auth-data';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { TrainingService } from '../training/training.service';
 import { UiService } from '../shared/ui.service';
-import * as fromRoot from '../app.reducer';
-import * as UI from '../shared/ui.actions';
+import * as fromRoot from '../_reducers/app.reducer';
+import * as UI from '../_actions/ui.actions';
 import { Store } from '@ngrx/store';
 
 @Injectable()
